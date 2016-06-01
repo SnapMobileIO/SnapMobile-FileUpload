@@ -17,3 +17,5 @@ var _fileUpload3 = _interopRequireDefault(_fileUpload2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _angular2.default.module('FileUploadModule', [_ngFileUpload2.default]).controller('FileUploadController', _fileUpload.FileUploadController).directive('fileUpload', _fileUpload3.default);
+
+require('./fileUpload.js');

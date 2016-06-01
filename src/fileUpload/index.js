@@ -8,3 +8,5 @@ import fileUploadDirective from './fileUpload.directive';
 angular.module('FileUploadModule', [ngFileUpload])
   .controller('FileUploadController', FileUploadController)
   .directive('fileUpload', fileUploadDirective);
+
+require('./fileUpload.js');

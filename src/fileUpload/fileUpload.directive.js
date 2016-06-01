@@ -4,7 +4,6 @@
  * FileUploadDirective
  */
 function fileUploadDirective() {
-  require('./fileUpload.js');
   return {
     restrict: 'EA',
     transclude: true,
