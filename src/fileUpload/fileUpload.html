@@ -1,79 +1,52 @@
-<style>
-  .button {
-    -moz-appearance: button;
-    /* Firefox */
-    -webkit-appearance: button;
-    /* Safari and Chrome */
-    padding: 10px;
-    margin: 10px;
-    width: 70px;
-  }
-  .drop-box {
-    background: #F8F8F8;
-    border: 5px dashed #DDD;
-    width: 100%;
-    text-align: center;
-    padding: 25px 12px;
-    line-height: auto;
-    height: auto;
-    cursor: pointer;
-  }
-  .dragover {
-    border: 5px dashed blue;
-  }
-  .disabled {
-    opacity: 0.5;
-  }
-  .enabled {
-    opacity: 1.0;
-  }
-</style>
+<div class="file-upload">
 
-<!-- If multiple is true invalidFiles will be an array -->
-<ul ng-if="fileUploadCtrl.multiple && fileUploadCtrl.invalidFiles.length">
-  <li ng-repeat="file in fileUploadCtrl.invalidFiles" style="color: red;">
-    <strong>{{file.name}}</strong>
-    <span ng-if="file.$error==='pattern'">is not the correct file type. Must be an image or PDF.</span>
-    <span ng-if="file.$error==='maxSize'">is too big. Must be less than {{fileUploadCtrl.maxFileSize}}.</span>
-  </li>
-</ul>
+  <!-- If multiple is true invalidFiles will be an array -->
+  <ul ng-if="fileUploadCtrl.multiple && fileUploadCtrl.invalidFiles.length">
+    <li ng-repeat="file in fileUploadCtrl.invalidFiles" style="color: red;">
+      <strong>{{file.name}}</strong>
+      <span ng-if="file.$error==='pattern'">is not the correct file type. Must be an image or PDF.</span>
+      <span ng-if="file.$error==='maxSize'">is too big. Must be less than {{fileUploadCtrl.maxFileSize}}.</span>
+    </li>
+  </ul>
 
-<!-- If multiple is false invalidFiles will be an object -->
-<ul ng-if="!fileUploadCtrl.multiple && fileUploadCtrl.invalidFiles.name">
-  <li style="color: red;">
-    <strong>{{fileUploadCtrl.invalidFiles.name}}</strong>
-    <span ng-if="fileUploadCtrl.invalidFiles.$error==='pattern'">is not the correct file type. Must be an image or PDF.</span>
-    <span ng-if="fileUploadCtrl.invalidFiles.$error==='maxSize'">is too big. Must be less than {{fileUploadCtrl.maxFileSize}}.</span>
-  </li>
-</ul>
+  <!-- If multiple is false invalidFiles will be an object -->
+  <ul ng-if="!fileUploadCtrl.multiple && fileUploadCtrl.invalidFiles.name">
+    <li style="color: red;">
+      <strong>{{fileUploadCtrl.invalidFiles.name}}</strong>
+      <span ng-if="fileUploadCtrl.invalidFiles.$error==='pattern'">is not the correct file type. Must be an image or PDF.</span>
+      <span ng-if="fileUploadCtrl.invalidFiles.$error==='maxSize'">is too big. Must be less than {{fileUploadCtrl.maxFileSize}}.</span>
+    </li>
+  </ul>
 
-<div class="row">
-  <div class="text-center" ng-repeat="file in fileUploadCtrl.files">
-    {{file.name}}<br>
-    <img ngf-src="file" ng-class="{disabled: file.status!=='uploaded', enabled: file.status==='uploaded', }" style="max-width: 100%; max-height: 100%;">
-    <div ng-if="file.status==='uploading'">
-      <uib-progressbar class="progress-striped" value="file.progress" type="warning">{{file.progress}}%</uib-progressbar>
+  <div class="row">
+    <div class="text-center" ng-repeat="file in fileUploadCtrl.files">
+      <p class="file-name">{{file.name}}</p>
+      <img ngf-src="file" ng-class="{disabled: file.status!=='uploaded', enabled: file.status==='uploaded', }" class="file-image">
+      <div ng-if="file.status==='uploading'" class="file-progress-uploading">
+        <uib-progressbar class="progress-striped" value="file.progress" type="warning">{{file.progress}}%</uib-progressbar>
+      </div>
+      <div ng-if="file.status==='processing'" class="file-progress-processing">
+        <uib-progressbar class="progress-striped active" value="file.progress" type="primary">{{file.progress}}% (Processing)</uib-progressbar>
+      </div>
+      <div ng-if="file.status==='uploaded'" class="file-progress-uploaded">
+        <p class="bg-success"><i class="fa fa-check-circle"></i> Uploaded!</p>
+      </div>
+      <div ng-if="file.status==='error'" class="file-progress-error">
+        <p class="bg-danger"><i class="fa fa-times-circle"></i> Error!</p>
+      </div>
     </div>
-    <div ng-if="file.status==='processing'">
-      <uib-progressbar class="progress-striped active" value="file.progress" type="primary">{{file.progress}}% (Processing)</uib-progressbar>
-    </div>
-    <div ng-if="file.status==='uploaded'">
-      <p class="bg-success"><i class="fa fa-check-circle"></i> Uploaded!</p>
-    </div>
-    <div ng-if="file.status==='error'">
-      <p class="bg-danger"><i class="fa fa-times-circle"></i> Error!</p>
-    </div>
+    <div ngf-drop 
+      ngf-select 
+      ng-model="fileUploadCtrl.files" 
+      ngf-model-invalid="fileUploadCtrl.invalidFiles" 
+      ngf-drag-over-class="'dragover'" 
+      ngf-multiple="{{fileUploadCtrl.multiple}}" 
+      ngf-allow-dir="true"
+      accept="{{fileUploadCtrl.accept}}"
+      ngf-max-size="{{fileUploadCtrl.maxFileSize}}"
+      ngf-pattern="{{fileUploadCtrl.pattern}}"
+      class="drop-box"><span ng-transclude>Drop pdfs or images here or click to upload</span></div>
+    <div ngf-no-file-drop class="drop-box-no-drop">File drag &amp; drop is not supported for this browser</div>
   </div>
-  <div ngf-drop 
-    ngf-select 
-    ng-model="fileUploadCtrl.files" 
-    ngf-model-invalid="fileUploadCtrl.invalidFiles" 
-    ngf-drag-over-class="'dragover'" 
-    ngf-multiple="{{fileUploadCtrl.multiple}}" 
-    ngf-allow-dir="true"
-    accept="{{fileUploadCtrl.accept}}"
-    ngf-max-size="{{fileUploadCtrl.maxFileSize}}"
-    ngf-pattern="{{fileUploadCtrl.pattern}}"
-    class="drop-box"><span ng-transclude>Drop pdfs or images here or click to upload</span></div>
-  <div ngf-no-file-drop>File drag &amp; drop is not supported for this browser</div>
+
 </div>
