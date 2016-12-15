@@ -80,6 +80,9 @@ class FileUploadController {
           if (this.multiple) {
             this.$scope.forFiles = this.$scope.forFiles || [];
             this.$scope.forFiles.push(fileObject);
+
+            // Clear file object for array
+            this.files = [];
           } else {
             this.$scope.forFile = fileObject;
           }
