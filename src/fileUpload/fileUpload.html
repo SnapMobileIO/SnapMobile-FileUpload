@@ -18,35 +18,32 @@
     </li>
   </ul>
 
-  <div class="row">
-    <div class="text-center" ng-repeat="file in fileUploadCtrl.files">
-      <p class="file-name">{{file.name}}</p>
-      <img ngf-src="file" ng-class="{disabled: file.status!=='uploaded', enabled: file.status==='uploaded', }" class="file-image">
-      <div ng-if="file.status==='uploading'" class="file-progress-uploading">
-        <uib-progressbar class="progress-striped" value="file.progress" type="warning">{{file.progress}}%</uib-progressbar>
-      </div>
-      <div ng-if="file.status==='processing'" class="file-progress-processing">
-        <uib-progressbar class="progress-striped active" value="file.progress" type="primary">{{file.progress}}% (Processing)</uib-progressbar>
-      </div>
-      <div ng-if="file.status==='uploaded'" class="file-progress-uploaded">
-        <p class="bg-success"><i class="fa fa-check-circle"></i> Uploaded!</p>
-      </div>
-      <div ng-if="file.status==='error'" class="file-progress-error">
-        <p class="bg-danger"><i class="fa fa-times-circle"></i> Error!</p>
-      </div>
+  <div ng-repeat="file in fileUploadCtrl.files">
+    <img ngf-src="file" ng-class="{disabled: file.status!=='uploaded', enabled: file.status==='uploaded', }" class="file-image">
+    <div ng-if="file.status==='uploading'" class="file-progress-uploading">
+      <uib-progressbar class="progress-striped" value="file.progress" type="warning">{{file.progress}}%</uib-progressbar>
     </div>
-    <div ngf-drop 
-      ngf-select 
-      ng-model="fileUploadCtrl.files" 
-      ngf-model-invalid="fileUploadCtrl.invalidFiles" 
-      ngf-drag-over-class="'dragover'" 
-      ngf-multiple="{{fileUploadCtrl.multiple}}" 
-      ngf-allow-dir="true"
-      accept="{{fileUploadCtrl.accept}}"
-      ngf-max-size="{{fileUploadCtrl.maxFileSize}}"
-      ngf-pattern="{{fileUploadCtrl.pattern}}"
-      class="drop-box"><span ng-transclude>Drop pdfs or images here or click to upload</span></div>
-    <div ngf-no-file-drop class="drop-box-no-drop">File drag &amp; drop is not supported for this browser</div>
+    <div ng-if="file.status==='processing'" class="file-progress-processing">
+      <uib-progressbar class="progress-striped active" value="file.progress" type="primary">{{file.progress}}% (Processing)</uib-progressbar>
+    </div>
+    <div ng-if="file.status==='uploaded'" class="file-progress-uploaded">
+      <p class="bg-success"><i class="fa fa-check-circle"></i> Uploaded!</p>
+    </div>
+    <div ng-if="file.status==='error'" class="file-progress-error">
+      <p class="bg-danger"><i class="fa fa-times-circle"></i> Error!</p>
+    </div>
   </div>
+  <div ngf-drop 
+    ngf-select 
+    ng-model="fileUploadCtrl.files" 
+    ngf-model-invalid="fileUploadCtrl.invalidFiles" 
+    ngf-drag-over-class="'dragover'" 
+    ngf-multiple="{{fileUploadCtrl.multiple}}" 
+    ngf-allow-dir="true"
+    accept="{{fileUploadCtrl.accept}}"
+    ngf-max-size="{{fileUploadCtrl.maxFileSize}}"
+    ngf-pattern="{{fileUploadCtrl.pattern}}"
+    class="drop-box"><span ng-transclude>Drop pdfs or images here or click to upload</span></div>
+  <div ngf-no-file-drop class="drop-box-no-drop">File drag &amp; drop is not supported for this browser</div>
 
 </div>
