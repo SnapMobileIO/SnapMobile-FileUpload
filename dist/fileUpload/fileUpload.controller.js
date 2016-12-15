@@ -96,6 +96,9 @@ var FileUploadController = function () {
           if (_this2.multiple) {
             _this2.$scope.forFiles = _this2.$scope.forFiles || [];
             _this2.$scope.forFiles.push(fileObject);
+
+            // Clear file object for array
+            _this2.files = [];
           } else {
             _this2.$scope.forFile = fileObject;
           }
